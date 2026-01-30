@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zachariah Lerman | Portfolio</title>
+    <style>
+        /* --- CSS STYLES --- */
+        :root {
+            --bg-color: #f4f4f5;
+            --text-color: #18181b;
+            --accent-color: #CD040B; /* Verizon Red */
+            --linkedin-color: #0077b5;
+            --card-bg: #ffffff;
+            --secondary-text: #71717a;
+            /* Tag Colors */
+            --tag-pro-bg: #ffe4e6; --tag-pro-text: #be123c;
+            --tag-college-bg: #dbeafe; --tag-college-text: #1e40af;
+            --tag-hs-bg: #dcfce7; --tag-hs-text: #166534;
+        }
+
+        /* Basic Reset & Typography */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            background-image: radial-gradient(circle at 50% 0%, #e4e4e7 0%, #f4f4f5 70%);
+            color: var(--text-color);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        /* Container */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Sticky "Glass" Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            margin-bottom: 40px;
+            
+            /* Sticky properties */
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            
+            /* Glassmorphism effect */
+            background: rgba(244, 244, 245, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            margin-left: -20px;
+            margin-right: -20px;
+            width: calc(100% + 40px);
+        }
+        
+        .logo { font-weight: 700; font-size: 1.2rem; margin-left: 20px;}
+        nav { display: flex; gap: 20px; flex-wrap: wrap; margin-right: 20px;}
+        nav a {
+            text-decoration: none;
+            color: var(--secondary-text);
+            font-size: 0.9rem;
+            transition: color 0.3s;
+            position: relative;
+        }
+        nav a:hover { color: var(--accent-color); }
+        
+        /* Nav Underline Animation */
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--accent-color);
+            transition: width 0.3s;
+        }
+        nav a:hover::after { width: 100%; }
+
+        /* Hero Section Animation */
+        .hero {
+            text-align: center;
+            padding: 80px 0;
+            animation: fadeIn 1.2s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- PHOTO SIZE --- */
+        .hero img {
+            width: 220px; 
+            height: 220px; 
+            border-radius: 50%;
+            object-fit: cover; 
+            margin-bottom: 25px;
+            border: 4px solid var(--accent-color);
+            box-shadow: 0 10px 25px rgba(205, 4, 11, 0.2);
+            transition: transform 0.3s;
+        }
+        .hero img:hover { transform: scale(1.05); } 
+        
+        .hero h1 { font-size: 2.8rem; margin-bottom: 10px; letter-spacing: -0.5px; }
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--secondary-text);
+            max-width: 700px;
+            margin: 0 auto 30px auto;
+        }
+        
+        /* Buttons */
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border: 2px solid var(--accent-color);
+            cursor: pointer; /* Ensures pointer on form button */
+        }
+        .btn:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 6px 12px rgba(205, 4, 11, 0.25);
+        }
+
+        /* Outline Button Style for Resume */
+        .btn-outline {
+            display: inline-block;
+            background-color: transparent;
+            color: var(--accent-color);
+            border: 2px solid var(--accent-color);
+            padding: 12px 24px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn-outline:hover {
+            transform: translateY(-2px);
+            background-color: #ffe4e6; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .btn-linkedin {
+            background-color: var(--linkedin-color);
+            border: 2px solid var(--linkedin-color);
+        }
+        .btn-linkedin:hover {
+            box-shadow: 0 6px 12px rgba(0, 119, 181, 0.25);
+        }
+
+        /* Section Styling & Scroll Offset Fix */
+        section { 
+            scroll-margin-top: 120px;
+            margin-bottom: 100px; 
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            position: relative;
+            display: inline-block;
+        }
+        h2::after {
+            content: '';
+            display: block;
+            width: 40%;
+            height: 4px;
+            background: var(--accent-color);
+            margin-top: 5px;
+            border-radius: 2px;
+        }
+
+        /* Timeline / Education Styling */
+        .timeline-item {
+            margin-bottom: 25px;
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            border: 1px solid rgba(0,0,0,0.03);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .timeline-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+
+        .timeline-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        .role { font-weight: 700; font-size: 1.1rem; }
+        .date { 
+            color: var(--secondary-text); 
+            font-size: 0.9rem; 
+            background: #f0f0f2; 
+            padding: 2px 8px; 
+            border-radius: 4px; 
+            height: fit-content;
+            white-space: nowrap; 
+        }
+        .institution { color: var(--accent-color); font-style: italic; margin-bottom: 5px; display: block; font-weight: 600;}
+        .timeline-item ul {
+            list-style-position: inside;
+            color: var(--secondary-text);
+            margin-top: 10px;
+        }
+        .timeline-item li { margin-bottom: 8px; }
+
+        /* Skills Grid */
+        .skills-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .skill-item {
+            background: #fff;
+            border: 1px solid #e4e4e7;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #3f3f46;
+            transition: all 0.2s;
+            cursor: default;
+        }
+        .skill-item:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+            background: #fff1f2;
+        }
+
+        /* Projects Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+        .card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            border: 1px solid rgba(0,0,0,0.03);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .card:hover { 
+            transform: translateY(-8px); 
+            box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+        }
+        .card h3 { margin-bottom: 15px; font-size: 1.3rem;}
+        .card p { font-size: 0.95rem; color: var(--secondary-text); margin-bottom: 15px; }
+        
+        .tag {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            margin-right: 5px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        /* Tag Variants */
+        .tag-default { background: #ffe4e6; color: #be123c; } 
+        .tag-college { background: var(--tag-college-bg); color: var(--tag-college-text); }
+        .tag-hs { background: var(--tag-hs-bg); color: var(--tag-hs-text); }
+
+        /* Volunteering List Style */
+        .vol-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .vol-item {
+            margin-bottom: 15px;
+        }
+        .vol-item:last-child { margin-bottom: 0; }
+        
+        .vol-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 5px;
+            gap: 15px;
+        }
+        
+        .vol-title { font-weight: 700; color: var(--text-color); }
+        .vol-desc { font-size: 0.95rem; color: var(--secondary-text); margin-top: 5px; }
+
+
+        /* Contact & Form Styling */
+        .contact-box {
+            text-align: center;
+            background: white;
+            padding: 60px 20px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+        
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto 30px auto;
+            text-align: left;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: var(--text-color);
+            font-size: 0.9rem;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e4e4e7;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            background: #f9fafb;
+            transition: border 0.3s;
+        }
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(205, 4, 11, 0.1);
+        }
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            color: var(--secondary-text);
+            font-size: 0.8rem;
+            border-top: 1px solid #e4e4e7;
+            margin-top: 40px;
+        }
+
+        /* Mobile Tweaks */
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 2.2rem; }
+            .timeline-header { flex-direction: column; }
+            .vol-header { flex-direction: column; gap: 5px; } 
+            nav { justify-content: center; }
+            header { flex-direction: column; gap: 15px; }
+            .logo { margin-left: 0; }
+            nav { margin-right: 0; }
+            section { scroll-margin-top: 140px; }
+            .hero img { width: 180px; height: 180px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div class="logo">Zachariah Lerman</div>
+        <nav>
+            <a href="#about">About</a>
+            <a href="#experience">Experience</a>
+            <a href="#education">Education</a>
+            <a href="#skills">Skills</a>
+            <a href="#projects">Projects</a>
+            <a href="#volunteering">Volunteering</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <div class="hero">
+        <img src="profile.jpg" alt="Zachariah Lerman">
+        <h1>Hi, I'm Zach</h1>
+        <p>Operations Analyst, Industrial Engineer, MBA Candidate, and Six Sigma Yellow Belt specializing in data-driven decision making and process optimization.</p>
+        <div class="btn-group">
+            <a href="#contact" class="btn">Get in Touch</a>
+            <a href="resume.pdf" target="_blank" class="btn-outline">Download Resume</a>
+        </div>
+    </div>
+
+    <section id="about">
+        <h2>About Me</h2>
+        <p>
+            I am a determined Industrial Engineer and MBA candidate at Southern New Hampshire University with a 4.0 GPA. 
+        </p>
+        <br>
+        <p>
+            Currently, I serve as an Operations Support Analyst at Verizon, where I leverage data and AI to optimize revenue streams 
+            and ensure compliance across the footprint.
+        </p>
+        <br>
+        <p>
+            I specialize in turning technical data analysis into clear, actionable business strategy.
+            Beyond the metrics, I am driven by a commitment to volunteering and finding ways to make my community better.
+        </p>
+    </section>
+
+    <section id="experience">
+        <h2>Experience</h2>
+        
+        <div class="timeline-item">
+            <div class="timeline-header">
+                <span class="role">Operations Support Analyst</span>
+                <span class="date">July 2024 — Present</span>
+            </div>
+            <span class="institution">Verizon | Dorchester, MA</span>
+            <ul>
+                <li>Created a field procedure for dig safe compliance, resulting in over $1.5 million in savings.</li>
+                <li>Track and manage 5,000+ reimbursable jobs monthly across the Northeast to optimize revenue.</li>
+                <li>Generated 3 separate WebApps utilizing Google AppsScript and Gemini to improve efficiency and productivity.</li>
+                <li>Outlined 20 different field support processes educating executives, new-hires, and other departments.</li>
+            </ul>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-header">
+                <span class="role">Operations Support Intern</span>
+                <span class="date">June 2023 — Aug 2023</span>
+            </div>
+            <span class="institution">Verizon | Boston, MA</span>
+            <ul>
+                <li>Collaborated with leadership, engineers, and sales to build out the fiber optics network.</li>
+                <li>Identified new revenue streams using Geospatial software tools to increase penetration rates.</li>
+            </ul>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-header">
+                <span class="role">Sales Operations Intern</span>
+                <span class="date">July 2022 — April 2023</span>
+            </div>
+            <span class="institution">C-4 Analytics, LLC | Wakefield, MA</span>
+            <ul>
+                <li>Supported Sales Ops and Marketing teams with reporting through Salesforce.</li>
+                <li>Collected and analyzed data on 1,000+ potential clients to identify new revenue opportunities.</li>
+            </ul>
+        </div>
+        
+    </section>
+
+    <section id="education">
+        <h2>Education</h2>
+
+        <div class="timeline-item">
+            <div class="timeline-header">
+                <span class="role">Master of Business Administration (MBA)</span>
+                <span class="date">October 2024 — Present</span>
+            </div>
+            <span class="institution">Southern New Hampshire University</span>
+            <p style="font-size: 0.9rem; color: #555;">GPA: 4.0</p>
+            <ul>
+                <li>Honor Roll Recipient: 2024-2025 (Every Term)</li>
+                <li>Focus: Leading People, Org Strategy, and Change Management</li>
+            </ul>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-header">
+                <span class="role">B.S. Industrial Engineering</span>
+                <span class="date">September 2020 — May 2024</span>
+            </div>
+            <span class="institution">University of Massachusetts Amherst</span>
+            <p style="font-size: 0.9rem; color: #555;">GPA: 3.5</p>
+            <ul>
+                <li>Recipient of John & Abigail Adams Scholarship and NMSC Scholarship</li>
+                <li>Dean's List Recipient (Fall 2020, Fall 2023, Spring 2024)</li>
+                <li>Focus: Engineering/Economic Decision Making, Operations Research, and Supply Chain Logistics</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="skills">
+        <h2>Technical Skills</h2>
+        <div class="skills-grid">
+            <div class="skill-item">Google AppsScript</div>
+            <div class="skill-item">Operations Research</div>
+            <div class="skill-item">Data Analysis & Visualization</div>
+            <div class="skill-item">Microsoft Office Suite</div>
+            <div class="skill-item">AMPL</div>
+            <div class="skill-item">R Studio</div>
+            <div class="skill-item">Geospatial Tools</div>
+            <div class="skill-item">Salesforce</div>
+            <div class="skill-item">Statistical Quality Control</div>
+            <div class="skill-item">Engineering Economics</div>
+        </div>
+    </section>
+
+    <section id="projects">
+        <h2>Key Projects</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>Roster WebApp Schedules</h3>
+                <p><strong>The Challenge:</strong> Standardize Out-of-Hours (OOH) duty manager schedules online across the nation.</p>
+                <p><strong>The Outcome:</strong> Utilizing AI and Google AppsScript, generated numerous efficient WebApps to hold schedules for field and center teams to rely on.</p>
+                <div>
+                    <span class="tag tag-default">Professional</span>
+                </div>
+            </div>
+            <div class="card">
+                <h3>Dig Safe Process</h3>
+                <p><strong>The Challenge:</strong> Continuous violations to certain regulations resulted in unnecessary expenses.</p>
+                <p><strong>The Outcome:</strong> Created a new field process that saved over $1.5 million across MA & RI.</p>
+                <div>
+                    <span class="tag tag-default">Professional</span>
+                </div>
+            </div>
+            <div class="card">
+                <h3>Geospatial Revenue Stream</h3>
+                <p><strong>The Challenge:</strong> Identify missed revenue opportunities in fiber network expansion using Geospatial data.</p>
+                <p><strong>The Outcome:</strong> Utilized Geospatial software to identify over 100 potential customers in Boston, increasing the penetration rates.</p>
+                <div>
+                    <span class="tag tag-default">Professional</span>
+                </div>
+            </div>
+            <div class="card">
+                <h3>UMass Capstone Design</h3>
+                <p><strong>The Challenge:</strong> Optimize classroom scheduling for the MIE department consisting of 46 courses, 30 timeslots, and 45 professors.</p>
+                <p><strong>The Outcome:</strong> Formulated a binary linear optimization program using AMPL to find the best feasible solution.</p>
+                <div>
+                    <span class="tag tag-college">Academic</span>
+                </div>
+            </div>
+               <div class="card">
+                <h3>Supply Chain Simulation</h3>
+                <p><strong>The Challenge:</strong> Manage a supply chain network under uncertain customer demands and supplier requirements.</p>
+                <p><strong>The Outcome:</strong> Competed in 2 separate simulations, securing 1st place in both.</p>
+                <div>
+                    <span class="tag tag-college">Academic</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="volunteering">
+        <h2>Volunteering</h2>
+        <div class="vol-stack">
+            
+            <div class="card">
+                <h3 style="color: var(--accent-color); border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 20px;">Professional</h3>
+                <div class="vol-item">
+                    <div class="vol-header">
+                        <span class="vol-title">Verizon Volunteering</span>
+                        <span class="date">June 2023 — Present</span>
+                    </div>
+                    <div class="vol-desc">Dedicated over 20 hours across 10 different events including One8 Applied Learning Hub, My Brother's Keeper, etc.</div>
+                </div>
+                
+                <hr style="border: 0; border-top: 1px solid #f4f4f5; margin: 15px 0;">
+
+                <div class="vol-item">
+                    <div class="vol-header">
+                        <span class="vol-title">Shovel Town Basketball Club</span>
+                        <span class="date">Aug 2024 — Jan 2026</span>
+                    </div>
+                    <div class="vol-desc">Youth boys and girls AAU basketball coach and trainer, improving their skills and abilities on and off the court.</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 style="color: #1e40af; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 20px;">College</h3>
+                
+                <div class="vol-item">
+                    <div class="vol-header">
+                        <span class="vol-title">Kappa Sigma Fraternity Philanthropy</span>
+                        <span class="date">Sept 2021 — June 2024</span>
+                    </div>
+                    <div class="vol-desc">Participated in neighborhood cleanups and raised funds for the Stone Strong for Lymphoma Walk and UMass Dance Marathon.</div>
+                </div>
+                
+                <hr style="border: 0; border-top: 1px solid #f4f4f5; margin: 15px 0;">
+
+                <div class="vol-item">
+                    <div class="vol-header">
+                        <span class="vol-title">Engineers Without Borders</span>
+                        <span class="date">Jan 2022 — Nov 2023</span>
+                    </div>
+                    <div class="vol-desc">Collaborated on a service project in Kenya by writing reports and conducting alternative analysis for water supply solutions.</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 style="color: #166534; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 20px;">High School</h3>
+                
+                <div class="vol-item">
+                    <div class="vol-header">
+                        <span class="vol-title">Leo Lion's Club</span>
+                        <span class="date">Sep 2018 — Feb 2020</span>
+                    </div>
+                    <div class="vol-desc">Volunteered at the Mansfield Food Pantry and the Lion's Clubs yearly auction where I successfully won a participant a new car.</div>
+                </div>
+
+                <hr style="border: 0; border-top: 1px solid #f4f4f5; margin: 15px 0;">
+
+                <div class="vol-item">
+                    <div class="vol-header">
+                        <span class="vol-title">Student's Against Destructive Decisions (SADD)</span>
+                        <span class="date">Nov 2018 — May 2020</span>
+                    </div>
+                    <div class="vol-desc">As Vice President, organized fundraising and school-wide events such as the Yellow Dress Campaign which addressed domestic violence awareness.</div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2>Let's Connect</h2>
+        <div class="contact-box">
+            <p style="margin-bottom: 25px;">
+                Have a project in mind or just want to say hi? Fill out the form below.
+            </p>
+            
+            <form name="contact" method="POST" data-netlify="true" class="contact-form">
+                <input type="hidden" name="form-name" value="contact">
+                
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required placeholder="Your Name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required placeholder="your.email@example.com">
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" required placeholder="How can I help?"></textarea>
+                </div>
+                
+                <button type="submit" class="btn" style="width: 100%; border: none;">Send Message</button>
+            </form>
+            <div style="margin-top: 40px; border-top: 1px solid #eee; padding-top: 20px;">
+                <p style="font-size: 0.9rem; color: #777; margin-bottom: 15px;">Or connect directly:</p>
+                <div class="btn-group">
+                    <a href="mailto:zlerman02@gmail.com" class="btn">Email Me</a>
+                    <a href="https://www.linkedin.com/in/zachariah-lerman-5b529019a/" target="_blank" class="btn btn-linkedin">LinkedIn Profile</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        &copy; 2026 Zachariah Lerman. All rights reserved.
+    </footer>
+</div>
+
+<script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('section').forEach((section) => {
+        observer.observe(section);
+    });
+</script>
+
+</body>
+</html>
